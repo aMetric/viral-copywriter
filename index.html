@@ -585,11 +585,12 @@ body {
   backdrop-filter:blur(12px); color:var(--text-primary);
   font-size:14px; font-weight:500; pointer-events:auto;
   box-shadow:var(--toast-shadow);
-  animation:toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards;
+  animation:toastIn 0.3s ease, toastOut 0.3s ease 4.5s forwards;
   display:flex; align-items:center; gap:8px;
+  max-width:90vw;
 }
 .toast.success { border-color:rgba(34,197,94,0.3); }
-.toast.error { border-color:rgba(239,68,68,0.3); }
+.toast.error { border-color:rgba(239,68,68,0.3); max-width:460px; }
 @keyframes toastIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 @keyframes toastOut { to { opacity:0; transform:translateY(-10px); } }
 
@@ -638,6 +639,11 @@ body {
       <span>历史记录</span>
       <span class="badge-dot" id="historyBadge">0</span>
     </button>
+    <button class="header-btn" onclick="toggleLogPanel()" title="调试日志" style="border-color:var(--border-light); opacity:0.6;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <span>日志</span>
+      <span class="badge-dot" id="logBadge" style="display:none">!</span>
+    </button>
   </div>
 </header>
 
@@ -662,6 +668,11 @@ body {
           <div class="config-field">
             <label>Base URL</label>
             <input type="text" id="baseUrl" placeholder="https://api.openai.com/v1">
+            <div style="font-size:11px; color:var(--text-tertiary); margin-top:2px; line-height:1.5;">
+              💡 完整格式示例：<code style="background:var(--bg-card); padding:1px 5px; border-radius:3px; font-size:11px;">https://api.openai.com/v1</code>
+              <br>对应服务商：DeepSeek → <code style="background:var(--bg-card); padding:1px 5px; border-radius:3px; font-size:11px;">https://api.deepseek.com</code>
+              <br>要包含 <code>/v1</code>（部分服务商如 DeepSeek、Kimi 会自动处理，可不加）
+            </div>
           </div>
           <div class="config-field">
             <label>模型</label>
@@ -776,6 +787,21 @@ body {
   </div>
   <div class="history-list" id="historyList"></div>
   <button class="history-clear-btn" onclick="clearAllHistory()">🗑️ 清空全部历史</button>
+</div>
+
+<!-- ═══════ LOG PANEL ═══════ -->
+<div class="history-overlay" id="logOverlay" onclick="toggleLogPanel()"></div>
+<div class="history-panel" id="logPanel">
+  <div class="history-panel-header">
+    <h3>📋 请求日志</h3>
+    <div style="display:flex;gap:8px;">
+      <button class="result-btn" onclick="clearLogs()" style="font-size:11px;">🗑️ 清空</button>
+      <button class="btn-close-history" onclick="toggleLogPanel()">✕</button>
+    </div>
+  </div>
+  <div class="history-list" id="logList">
+    <div class="history-empty">暂无日志，触发 API 请求后会自动记录</div>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════════
@@ -1122,7 +1148,10 @@ async function generate() {
       }
     }
   } catch (err) {
-    toast('API 调用失败：' + err.message, 'error');
+    const config = getConfig();
+    const baseForDisplay = config ? config.baseUrl.replace(/\/+$/, '') + '/chat/completions' : '未知';
+    const msg = `API 调用失败\n${err.message}\n请求地址: ${baseForDisplay}`;
+    toast(msg, 'error');
     btn.classList.remove('loading');
     btn.disabled = false;
     return;
@@ -1137,7 +1166,9 @@ async function generate() {
 }
 
 async function callAI(system, user, config) {
-  const url = (config.baseUrl.replace(/\/+$/, '')) + '/chat/completions';
+  let baseUrl = config.baseUrl.replace(/\/+$/, '');
+  const url = baseUrl + '/chat/completions';
+  addLog('request', `POST ${url}`, `模型: ${config.model}`);
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -1157,13 +1188,39 @@ async function callAI(system, user, config) {
   if (!resp.ok) {
     let errMsg = `HTTP ${resp.status}`;
     try {
-      const errData = await resp.json();
-      errMsg = errData.error?.message || errData.error || errMsg;
-    } catch(e) {}
+      const contentType = resp.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        const errData = await resp.json();
+        errMsg = errData.error?.message || JSON.stringify(errData.error) || errMsg;
+      } else {
+        const text = await resp.text();
+        const snippet = text.trim().substring(0, 250).replace(/\s+/g, ' ');
+        errMsg = `HTTP ${resp.status}\n服务器返回了非 JSON 内容:\n${snippet}`;
+      }
+    } catch(e) {
+      errMsg = `HTTP ${resp.status} (响应解析失败)`;
+    }
+    addLog('error', `HTTP ${resp.status}`, errMsg);
     throw new Error(errMsg);
   }
-  const data = await resp.json();
-  if (!data.choices || !data.choices[0]) throw new Error('API 返回格式异常');
+  const contentType = resp.headers.get('content-type') || '';
+  if (!contentType.includes('application/json') && !contentType.includes('text/plain')) {
+    const text = await resp.text();
+    const snippet = text.trim().substring(0, 250).replace(/\s+/g, ' ');
+    addLog('error', '格式异常', `content-type: ${contentType}\n${snippet}`);
+    throw new Error(`API 返回格式异常 (content-type: ${contentType})\n请检查 Base URL 是否填写正确\n响应内容: ${snippet}`);
+  }
+  let data;
+  try {
+    data = await resp.json();
+  } catch(e) {
+    const text = await resp.text();
+    const snippet = text.trim().substring(0, 250).replace(/\s+/g, ' ');
+    addLog('error', 'JSON 解析失败', snippet);
+    throw new Error(`API 返回了非 JSON 数据，请检查 Base URL 是否正确\n响应内容: ${snippet}`);
+  }
+  addLog('response', `✅ 成功 (${data.usage?.total_tokens || '?'} tokens)`, `模型: ${data.model || config.model}\n返回内容长度: ${(data.choices?.[0]?.message?.content?.length || 0)} 字`);
+  if (!data.choices || !data.choices[0]) throw new Error('API 返回格式异常：缺少 choices 字段');
   return data.choices[0].message.content;
 }
 
@@ -1445,9 +1502,68 @@ function toast(msg, type) {
   const container = document.getElementById('toastContainer');
   const el = document.createElement('div');
   el.className = 'toast ' + (type || '');
-  el.textContent = msg;
+  // Use innerText to handle multiline messages with line breaks
+  if (msg.includes('\n')) {
+    const lines = msg.split('\n');
+    el.innerHTML = '<div style="display:flex;flex-direction:column;gap:2px">' +
+      lines.map((l, i) => i === 0
+        ? `<span style="font-weight:600">${escapeHtml(l)}</span>`
+        : `<span style="font-size:12px;opacity:0.8">${escapeHtml(l)}</span>`
+      ).join('') + '</div>';
+  } else {
+    el.textContent = msg;
+  }
   container.appendChild(el);
-  setTimeout(() => { if (el.parentNode) el.remove(); }, 3000);
+  setTimeout(() => { if (el.parentNode) el.remove(); }, 5000);
+}
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ═══════════════════════════════════════════
+// REQUEST LOG (调试日志)
+// ═══════════════════════════════════════════
+const LOGS = [];
+function addLog(type, title, detail) {
+  const ts = new Date();
+  const timeStr = ts.toLocaleTimeString('zh-CN', { hour12: false });
+  LOGS.unshift({ time: timeStr, type, title, detail });
+  if (LOGS.length > 200) LOGS.length = 200;
+  const badge = document.getElementById('logBadge');
+  if (badge) { badge.style.display = 'flex'; badge.textContent = LOGS.length; }
+  renderLogs();
+}
+function renderLogs() {
+  const list = document.getElementById('logList');
+  if (!list) return;
+  if (LOGS.length === 0) {
+    list.innerHTML = '<div class="history-empty">暂无日志，触发 API 请求后会自动记录</div>';
+    return;
+  }
+  list.innerHTML = LOGS.map(l => `
+    <div class="history-item" style="cursor:default;padding:10px 12px;">
+      <div class="history-item-meta">
+        <span class="history-item-platform" style="background:${l.type === 'error' ? 'rgba(239,68,68,0.15)' : 'rgba(34,197,94,0.12)'};color:${l.type === 'error' ? '#EF4444' : '#22C55E'}">
+          ${l.type === 'error' ? '✕ 错误' : l.type === 'request' ? '↑ 请求' : '↓ 响应'}
+        </span>
+        <span class="history-item-date">${l.time}</span>
+      </div>
+      <div class="history-item-preview" style="-webkit-line-clamp:3">${escapeHtml(l.title)}</div>
+      ${l.detail ? `<div style="font-size:11px;color:var(--text-tertiary);margin-top:4px;word-break:break-all">${escapeHtml(l.detail)}</div>` : ''}
+    </div>
+  `).join('');
+}
+function toggleLogPanel() {
+  document.getElementById('logOverlay').classList.toggle('open');
+  document.getElementById('logPanel').classList.toggle('open');
+}
+function clearLogs() {
+  LOGS.length = 0;
+  const badge = document.getElementById('logBadge');
+  if (badge) badge.style.display = 'none';
+  renderLogs();
 }
 
 // ═══════════════════════════════════════════
