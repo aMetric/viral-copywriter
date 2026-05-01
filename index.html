@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爆款文案工坊 ✦ ViralCopy</title>
+<meta name="description" content="AI 驱动的社交媒体爆款文案生成工具，支持小红书、抖音、多平台通用。配置 API Key 即可使用，无需后端。">
+<meta property="og:title" content="爆款文案工坊 ✦ ViralCopy">
+<meta property="og:description" content="AI 驱动的社交媒体爆款文案生成工具，支持小红书、抖音、多平台通用。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="favicon-generate.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FF6B6B'/%3E%3Cstop offset='100%25' stop-color='%23FFB347'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%230B0B12'/%3E%3Ctext x='16' y='24' font-size='22' text-anchor='middle' fill='url(%23g)'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="favicon-generate.png">
+<link rel="mask-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23FF6B6B'/%3E%3Ctext x='16' y='24' font-size='22' text-anchor='middle' fill='white'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E" color="#FF6B6B">
+<link rel="apple-touch-icon" href="favicon-generate.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   CSS VARIABLES & RESET
+   ═══════════════════════════════════════════ */
+:root {
+  /* Dark theme (default) */
+  --bg-primary: #0B0B12;
+  --bg-secondary: #12121D;
+  --bg-card: #1A1A2E;
+  --bg-card-hover: #222240;
+  --bg-surface: #16162A;
+  --bg-header: rgba(11,11,18,0.8);
+  --border: rgba(255,255,255,0.06);
+  --border-light: rgba(255,255,255,0.1);
+  --border-glow: rgba(255,107,107,0.3);
+  --text-primary: #F0EFF4;
+  --text-secondary: rgba(240,239,244,0.6);
+  --text-tertiary: rgba(240,239,244,0.35);
+  --overlay-bg: rgba(0,0,0,0.6);
+  --hover-bg: rgba(255,255,255,0.02);
+  --viral-meter-bg: rgba(255,255,255,0.02);
+  --scrollbar-thumb: rgba(255,255,255,0.1);
+  --scrollbar-thumb-hover: rgba(255,255,255,0.2);
+  --noise-opacity: 0.02;
+  --orb-1-bg: rgba(124,58,237,0.12);
+  --orb-2-bg: rgba(255,107,107,0.08);
+  --shadow-card: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03);
+  --shadow-glow: 0 0 40px rgba(255,107,107,0.15);
+  --toast-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  --accent-1: #FF6B6B;
+  --accent-2: #FFB347;
+  --accent-3: #7C3AED;
+  --gradient-main: linear-gradient(135deg, #FF6B6B 0%, #FFB347 100%);
+  --gradient-accent: linear-gradient(135deg, #7C3AED 0%, #FF6B6B 100%);
+  --gradient-glow: linear-gradient(135deg, rgba(255,107,107,0.4) 0%, rgba(255,179,71,0.4) 100%);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Light theme */
+:root.light {
+  --bg-primary: #F4F3F8;
+  --bg-secondary: #EBEAF0;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F0EEF5;
+  --bg-surface: #FFFFFF;
+  --bg-header: rgba(244,243,248,0.85);
+  --border: rgba(0,0,0,0.06);
+  --border-light: rgba(0,0,0,0.1);
+  --border-glow: rgba(255,107,107,0.3);
+  --text-primary: #1A1A2E;
+  --text-secondary: rgba(26,26,46,0.6);
+  --text-tertiary: rgba(26,26,46,0.35);
+  --overlay-bg: rgba(0,0,0,0.3);
+  --hover-bg: rgba(0,0,0,0.02);
+  --viral-meter-bg: rgba(0,0,0,0.02);
+  --scrollbar-thumb: rgba(0,0,0,0.1);
+  --scrollbar-thumb-hover: rgba(0,0,0,0.2);
+  --noise-opacity: 0.01;
+  --orb-1-bg: rgba(124,58,237,0.04);
+  --orb-2-bg: rgba(255,107,107,0.03);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+  --shadow-glow: 0 0 30px rgba(255,107,107,0.08);
+  --toast-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+  --bg-primary: #0B0B12;
+  --bg-secondary: #12121D;
+  --bg-card: #1A1A2E;
+  --bg-card-hover: #222240;
+  --bg-surface: #16162A;
+  --border: rgba(255,255,255,0.06);
+  --border-light: rgba(255,255,255,0.1);
+  --border-glow: rgba(255,107,107,0.3);
+  --text-primary: #F0EFF4;
+  --text-secondary: rgba(240,239,244,0.6);
+  --text-tertiary: rgba(240,239,244,0.35);
+  --accent-1: #FF6B6B;
+  --accent-2: #FFB347;
+  --accent-3: #7C3AED;
+  --gradient-main: linear-gradient(135deg, #FF6B6B 0%, #FFB347 100%);
+  --gradient-accent: linear-gradient(135deg, #7C3AED 0%, #FF6B6B 100%);
+  --gradient-glow: linear-gradient(135deg, rgba(255,107,107,0.4) 0%, rgba(255,179,71,0.4) 100%);
+  --shadow-card: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03);
+  --shadow-glow: 0 0 40px rgba(255,107,107,0.15);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background var(--transition), color var(--transition);
+}
+::selection {
+  background: rgba(255,107,107,0.25);
+  color: var(--text-primary);
+}
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--scrollbar-thumb); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:var(--scrollbar-thumb-hover); }
+
+/* ═══════════════════════════════════════════
+   NOISE OVERLAY
+   ═══════════════════════════════════════════ */
+.noise-overlay {
+  position: fixed; inset:0; pointer-events:none; z-index:9999;
+  opacity:var(--noise-opacity); mix-blend-mode:overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat; background-size:256px 256px;
+  transition:opacity var(--transition);
+}
+.glow-orb {
+  position:fixed; width:600px; height:600px; border-radius:50%;
+  filter:blur(150px); pointer-events:none; z-index:0;
+  transition:background var(--transition), transform 0.5s ease;
+}
+.glow-orb-1 { top:-200px; right:-200px; background:var(--orb-1-bg); }
+.glow-orb-2 { bottom:-300px; left:-200px; background:var(--orb-2-bg); }
+
+/* ═══════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════ */
+.app-header {
+  position:relative; z-index:10;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 32px; border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px); background:var(--bg-header);
+  transition:background var(--transition), border-color var(--transition);
+}
+.logo {
+  display:flex; align-items:center; gap:12px;
+  font-family:var(--font-display); font-weight:800; font-size:22px;
+  letter-spacing:-0.5px;
+}
+.logo-icon {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:40px; height:40px; border-radius:12px;
+  background:var(--gradient-main); font-size:20px;
+  box-shadow:0 4px 16px rgba(255,107,107,0.3);
+}
+.logo span { background:var(--gradient-main); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.header-actions { display:flex; align-items:center; gap:10px; }
+.header-btn {
+  display:flex; align-items:center; gap:6px;
+  padding:10px 18px; border-radius:var(--radius-sm);
+  border:1px solid var(--border-light); background:var(--bg-surface);
+  color:var(--text-secondary); font-size:13px; font-family:var(--font-body);
+  cursor:pointer; transition:var(--transition);
+}
+.header-btn:hover { border-color:var(--accent-1); color:var(--text-primary); background:var(--bg-card); }
+.header-btn svg { width:18px; height:18px; }
+.badge-dot {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:20px; height:20px; border-radius:50%;
+  background:var(--accent-1); color:#fff; font-size:11px; font-weight:700;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════════ */
+.app-main { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:28px 24px 80px; }
+.app-grid {
+  display:grid; grid-template-columns:360px 1fr; gap:28px;
+}
+.config-card, .prompt-card, .platform-tabs, .template-card, .result-card, .history-panel, .history-item,
+.config-field input, .config-field select, .param-group select, .param-group input, .prompt-textarea {
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
+}
+@media (max-width:900px) {
+  .app-grid { grid-template-columns:1fr; }
+  .app-header { padding:16px 20px; flex-wrap:wrap; gap:12px; }
+  .app-main { padding:20px 16px 60px; }
+}
+
+/* ═══════════════════════════════════════════
+   LEFT PANEL - CONFIG & TEMPLATES
+   ═══════════════════════════════════════════ */
+.left-panel { display:flex; flex-direction:column; gap:20px; }
+
+/* Config Card */
+.config-card {
+  background:var(--bg-surface); border-radius:var(--radius-lg);
+  border:1px solid var(--border); overflow:hidden;
+  transition:var(--transition);
+}
+.config-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 20px; cursor:pointer; user-select:none;
+  font-family:var(--font-display); font-weight:600; font-size:14px;
+}
+.config-header:hover { background:var(--hover-bg); }
+.config-arrow { transition:transform var(--transition); color:var(--text-tertiary); }
+.config-arrow.open { transform:rotate(180deg); }
+.config-body {
+  padding:0 20px 20px; display:none; flex-direction:column; gap:12px;
+}
+.config-body.open { display:flex; }
+.config-field { display:flex; flex-direction:column; gap:4px; }
+.config-field label {
+  font-size:12px; font-weight:600; color:var(--text-secondary);
+  text-transform:uppercase; letter-spacing:0.5px;
+}
+.config-field input, .config-field select {
+  padding:10px 14px; border-radius:var(--radius-sm);
+  border:1px solid var(--border-light); background:var(--bg-card);
+  color:var(--text-primary); font-family:var(--font-body); font-size:14px;
+  transition:var(--transition); outline:none;
+}
+.config-field input:focus, .config-field select:focus {
+  border-color:var(--accent-1); box-shadow:0 0 0 3px rgba(255,107,107,0.1);
+}
+.config-field input::placeholder { color:var(--text-tertiary); }
+.config-field select { cursor:pointer; appearance:none; }
+.btn-save-config {
+  margin-top:4px; padding:10px; border:none; border-radius:var(--radius-sm);
+  background:var(--gradient-main); color:#fff; font-weight:600; font-size:13px;
+  font-family:var(--font-body); cursor:pointer; transition:var(--transition);
+}
+.btn-save-config:hover { opacity:0.9; transform:translateY(-1px); box-shadow:var(--shadow-glow); }
+.config-status {
+  font-size:12px; padding:6px 10px; border-radius:6px;
+  display:flex; align-items:center; gap:6px;
+}
+.config-status.ok { background:rgba(34,197,94,0.1); color:#22C55E; }
+.config-status.missing { background:rgba(239,68,68,0.1); color:#EF4444; }
+
+/* Platform Tabs */
+.platform-tabs {
+  display:flex; gap:4px; background:var(--bg-surface);
+  border-radius:var(--radius-md); padding:4px;
+  border:1px solid var(--border);
+}
+.platform-tab {
+  flex:1; padding:10px 8px; border:none; border-radius:var(--radius-sm);
+  background:transparent; color:var(--text-tertiary); font-size:13px;
+  font-weight:500; font-family:var(--font-body); cursor:pointer;
+  transition:var(--transition); text-align:center;
+}
+.platform-tab:hover { color:var(--text-secondary); }
+.platform-tab.active {
+  background:var(--gradient-main); color:#fff; font-weight:600;
+  box-shadow:0 4px 12px rgba(255,107,107,0.3);
+}
+
+/* Template Grid */
+.templates-section { display:flex; flex-direction:column; gap:12px; }
+.templates-section h3 {
+  font-family:var(--font-display); font-size:13px; font-weight:600;
+  color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.8px;
+}
+.template-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:8px;
+}
+.template-card {
+  display:flex; flex-direction:column; gap:6px;
+  padding:14px 14px 12px; border-radius:var(--radius-md);
+  background:var(--bg-card); border:1px solid var(--border);
+  cursor:pointer; transition:var(--transition); position:relative;
+  overflow:hidden;
+}
+.template-card::before {
+  content:''; position:absolute; inset:0; border-radius:inherit;
+  background:var(--gradient-main); opacity:0; transition:var(--transition);
+}
+.template-card:hover { transform:translateY(-2px); border-color:rgba(255,107,107,0.2); }
+.template-card:hover::before { opacity:0.04; }
+.template-card.active {
+  border-color:var(--accent-1);
+  box-shadow:0 0 0 1px rgba(255,107,107,0.3), 0 4px 16px rgba(255,107,107,0.1);
+}
+.template-card-icon {
+  font-size:22px; line-height:1; position:relative; z-index:1;
+}
+.template-card-name {
+  font-size:12px; font-weight:600; color:var(--text-primary); line-height:1.3;
+  position:relative; z-index:1;
+}
+.template-card-desc {
+  font-size:11px; color:var(--text-tertiary); line-height:1.4;
+  position:relative; z-index:1;
+}
+.template-card-badge {
+  position:absolute; top:8px; right:8px; z-index:2;
+  font-size:9px; padding:2px 6px; border-radius:4px;
+  background:rgba(255,107,107,0.15); color:var(--accent-1); font-weight:600;
+}
+
+/* ═══════════════════════════════════════════
+   RIGHT PANEL - GENERATOR
+   ═══════════════════════════════════════════ */
+.right-panel { display:flex; flex-direction:column; gap:20px; }
+
+/* Prompt Input */
+.prompt-card {
+  background:var(--bg-surface); border-radius:var(--radius-lg);
+  border:1px solid var(--border); padding:20px;
+}
+.prompt-card h3 {
+  font-family:var(--font-display); font-size:14px; font-weight:600;
+  margin-bottom:10px; display:flex; align-items:center; gap:8px;
+}
+.prompt-card h3 .tag {
+  font-size:10px; padding:2px 8px; border-radius:4px;
+  background:var(--gradient-accent); color:#fff; font-weight:600;
+}
+.prompt-textarea {
+  width:100%; min-height:100px; padding:14px;
+  border-radius:var(--radius-md); border:1px solid var(--border-light);
+  background:var(--bg-card); color:var(--text-primary);
+  font-family:var(--font-body); font-size:14px; line-height:1.7;
+  resize:vertical; transition:var(--transition); outline:none;
+}
+.prompt-textarea:focus {
+  border-color:var(--accent-1); box-shadow:0 0 0 3px rgba(255,107,107,0.08);
+}
+.prompt-textarea::placeholder { color:var(--text-tertiary); }
+
+/* Parameters */
+.params-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:12px 16px;
+  margin-top:16px;
+}
+.param-group { display:flex; flex-direction:column; gap:4px; }
+.param-group label {
+  font-size:11px; font-weight:600; color:var(--text-secondary);
+  text-transform:uppercase; letter-spacing:0.4px; display:flex;
+  align-items:center; gap:4px;
+}
+.param-group select, .param-group input {
+  padding:8px 12px; border-radius:var(--radius-sm);
+  border:1px solid var(--border-light); background:var(--bg-card);
+  color:var(--text-primary); font-family:var(--font-body); font-size:13px;
+  outline:none; transition:var(--transition);
+}
+.param-group select:focus, .param-group input:focus {
+  border-color:var(--accent-1); box-shadow:0 0 0 3px rgba(255,107,107,0.08);
+}
+.param-group select { cursor:pointer; }
+.param-group input::placeholder { color:var(--text-tertiary); }
+.param-full { grid-column:1/-1; }
+
+/* Generate Button */
+.btn-generate {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; padding:16px 24px; border:none; border-radius:var(--radius-md);
+  background:var(--gradient-main); color:#fff; font-family:var(--font-display);
+  font-size:17px; font-weight:700; letter-spacing:0.5px;
+  cursor:pointer; transition:var(--transition); position:relative;
+  overflow:hidden; margin-top:4px;
+}
+.btn-generate:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(255,107,107,0.3); }
+.btn-generate:active { transform:translateY(0); }
+.btn-generate::after {
+  content:''; position:absolute; inset:0; border-radius:inherit;
+  background:linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+  transform:translateX(-100%); transition:transform 0.6s ease;
+}
+.btn-generate:hover::after { transform:translateX(100%); }
+.btn-generate:disabled {
+  opacity:0.5; cursor:not-allowed; transform:none !important;
+}
+.btn-generate .spinner {
+  display:none; width:20px; height:20px; border:2px solid rgba(255,255,255,0.3);
+  border-top-color:#fff; border-radius:50%; animation:spin 0.8s linear infinite;
+}
+.btn-generate.loading .spinner { display:block; }
+.btn-generate.loading .btn-text { display:none; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ═══════════════════════════════════════════
+   RESULTS
+   ═══════════════════════════════════════════ */
+.results-section { display:flex; flex-direction:column; gap:16px; }
+.results-header {
+  display:flex; align-items:center; justify-content:space-between;
+}
+.results-header h3 {
+  font-family:var(--font-display); font-size:16px; font-weight:600;
+}
+.results-count {
+  font-size:13px; color:var(--text-tertiary);
+}
+.result-card {
+  background:var(--bg-surface); border-radius:var(--radius-lg);
+  border:1px solid var(--border); overflow:hidden;
+  animation:slideUp 0.4s ease;
+}
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(16px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.result-card:nth-child(2) { animation-delay:0.1s; }
+.result-card:nth-child(3) { animation-delay:0.2s; }
+
+.result-card-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 20px; border-bottom:1px solid var(--border);
+}
+.result-label {
+  display:flex; align-items:center; gap:8px;
+  font-size:13px; font-weight:600;
+}
+.result-label .num {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:24px; height:24px; border-radius:6px;
+  background:var(--gradient-main); color:#fff; font-size:12px; font-weight:700;
+}
+.result-actions { display:flex; gap:6px; }
+.result-btn {
+  display:flex; align-items:center; gap:4px;
+  padding:6px 12px; border-radius:6px; border:1px solid var(--border-light);
+  background:transparent; color:var(--text-tertiary); font-size:12px;
+  font-family:var(--font-body); cursor:pointer; transition:var(--transition);
+}
+.result-btn:hover { border-color:var(--accent-1); color:var(--text-primary); background:var(--bg-card); }
+.result-btn.liked { border-color:var(--accent-1); color:var(--accent-1); background:rgba(255,107,107,0.08); }
+
+.result-body { padding:20px; }
+.result-text {
+  font-size:15px; line-height:1.8; color:var(--text-primary);
+  white-space:pre-wrap; word-wrap:break-word;
+}
+.result-text .cursor-blink {
+  display:inline-block; width:2px; height:1em;
+  background:var(--accent-1); animation:blink 0.8s step-end infinite;
+  vertical-align:text-bottom; margin-left:1px;
+}
+@keyframes blink { 50% { opacity:0; } }
+
+/* Viral Meter */
+.viral-meter {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 20px; border-top:1px solid var(--border);
+  background:var(--viral-meter-bg);
+  transition:background var(--transition);
+}
+.viral-meter-label { font-size:12px; color:var(--text-secondary); font-weight:600; white-space:nowrap; }
+.viral-meter-bar {
+  flex:1; height:6px; border-radius:3px; background:var(--bg-card);
+  overflow:hidden;
+}
+.viral-meter-fill {
+  height:100%; border-radius:3px; background:var(--gradient-main);
+  transition:width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  width:0%;
+}
+.viral-meter-score {
+  font-size:14px; font-weight:700; font-family:var(--font-display);
+  min-width:40px; text-align:right;
+}
+
+/* Empty State */
+.empty-state {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:60px 20px; text-align:center;
+}
+.empty-state-icon { font-size:48px; margin-bottom:16px; opacity:0.4; }
+.empty-state h4 { font-family:var(--font-display); font-size:18px; margin-bottom:8px; }
+.empty-state p { color:var(--text-tertiary); font-size:14px; max-width:340px; line-height:1.6; }
+
+/* ═══════════════════════════════════════════
+   HISTORY SIDEBAR
+   ═══════════════════════════════════════════ */
+.history-overlay {
+  position:fixed; inset:0; background:var(--overlay-bg);
+  z-index:100; opacity:0; pointer-events:none;
+  transition:opacity var(--transition), background var(--transition); backdrop-filter:blur(4px);
+}
+.history-overlay.open { opacity:1; pointer-events:auto; }
+
+.history-panel {
+  position:fixed; top:0; right:0; width:420px; max-width:90vw;
+  height:100vh; background:var(--bg-secondary); z-index:101;
+  transform:translateX(100%); transition:transform var(--transition);
+  border-left:1px solid var(--border); display:flex; flex-direction:column;
+}
+.history-panel.open { transform:translateX(0); }
+
+.history-panel-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 24px; border-bottom:1px solid var(--border);
+}
+.history-panel-header h3 {
+  font-family:var(--font-display); font-size:18px; font-weight:700;
+}
+.btn-close-history {
+  display:flex; align-items:center; justify-content:center;
+  width:36px; height:36px; border-radius:50%;
+  border:1px solid var(--border-light); background:transparent;
+  color:var(--text-secondary); cursor:pointer; font-size:18px;
+  transition:var(--transition);
+}
+.btn-close-history:hover { border-color:var(--accent-1); color:var(--text-primary); }
+
+.history-list {
+  flex:1; overflow-y:auto; padding:16px 24px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.history-empty {
+  text-align:center; padding:40px 0; color:var(--text-tertiary); font-size:14px;
+}
+.history-item {
+  padding:14px 16px; border-radius:var(--radius-md);
+  background:var(--bg-card); border:1px solid var(--border);
+  cursor:pointer; transition:var(--transition);
+}
+.history-item:hover { border-color:var(--border-light); }
+.history-item-meta {
+  display:flex; align-items:center; gap:8px; margin-bottom:6px;
+}
+.history-item-platform {
+  font-size:10px; padding:2px 6px; border-radius:4px;
+  background:rgba(255,107,107,0.12); color:var(--accent-1); font-weight:600;
+}
+.history-item-template {
+  font-size:10px; color:var(--text-tertiary);
+}
+.history-item-date {
+  font-size:10px; color:var(--text-tertiary); margin-left:auto;
+}
+.history-item-preview {
+  font-size:13px; color:var(--text-secondary); line-height:1.5;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.history-item-delete {
+  float:right; opacity:0; transition:var(--transition);
+  background:none; border:none; color:var(--text-tertiary);
+  cursor:pointer; font-size:16px; padding:2px 4px;
+}
+.history-item:hover .history-item-delete { opacity:0.6; }
+.history-item-delete:hover { opacity:1 !important; color:var(--accent-1); }
+
+.history-clear-btn {
+  margin:8px 24px 20px; padding:10px; border-radius:var(--radius-sm);
+  border:1px solid var(--border-light); background:transparent;
+  color:var(--text-tertiary); font-size:13px; font-family:var(--font-body);
+  cursor:pointer; transition:var(--transition); text-align:center;
+}
+.history-clear-btn:hover { border-color:#EF4444; color:#EF4444; }
+
+/* ═══════════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════════ */
+.toast-container {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+  z-index:9999; display:flex; flex-direction:column; gap:8px;
+  pointer-events:none;
+}
+.toast {
+  padding:12px 20px; border-radius:var(--radius-md);
+  background:var(--bg-surface); border:1px solid var(--border-light);
+  backdrop-filter:blur(12px); color:var(--text-primary);
+  font-size:14px; font-weight:500; pointer-events:auto;
+  box-shadow:var(--toast-shadow);
+  animation:toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards;
+  display:flex; align-items:center; gap:8px;
+}
+.toast.success { border-color:rgba(34,197,94,0.3); }
+.toast.error { border-color:rgba(239,68,68,0.3); }
+@keyframes toastIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes toastOut { to { opacity:0; transform:translateY(-10px); } }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width:900px) {
+  .params-grid { grid-template-columns:1fr; }
+  .template-grid { grid-template-columns:1fr 1fr; }
+  .history-panel { width:100%; max-width:100%; }
+}
+@media (max-width:480px) {
+  .template-grid { grid-template-columns:1fr; }
+  .header-actions .header-btn span { display:none; }
+  .logo { font-size:18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ NOISE & GLOW ═══════ -->
+<div class="noise-overlay"></div>
+<div class="glow-orb glow-orb-1"></div>
+<div class="glow-orb glow-orb-2"></div>
+
+<!-- ═══════ TOAST ═══════ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══════ HEADER ═══════ -->
+<header class="app-header">
+  <div class="logo">
+    <div class="logo-icon">✦</div>
+    <span>爆款文案工坊</span>
+  </div>
+  <div class="header-actions">
+    <button class="header-btn" id="themeToggle" onclick="toggleTheme()" title="切换主题">
+      <svg id="themeIconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="themeIconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <button class="header-btn" onclick="toggleConfig()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <span>API 配置</span>
+    </button>
+    <button class="header-btn" onclick="toggleHistory()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span>历史记录</span>
+      <span class="badge-dot" id="historyBadge">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ═══════ MAIN ═══════ -->
+<main class="app-main">
+  <div class="app-grid">
+
+    <!-- ═══ LEFT PANEL ═══ -->
+    <div class="left-panel">
+
+      <!-- Config Card -->
+      <div class="config-card" id="configCard">
+        <div class="config-header" onclick="toggleConfigBody()">
+          <span>⚙️ API 配置</span>
+          <span class="config-arrow" id="configArrow">▼</span>
+        </div>
+        <div class="config-body" id="configBody">
+          <div class="config-field">
+            <label>API Key</label>
+            <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off">
+          </div>
+          <div class="config-field">
+            <label>Base URL</label>
+            <input type="text" id="baseUrl" placeholder="https://api.openai.com/v1">
+          </div>
+          <div class="config-field">
+            <label>模型</label>
+            <input type="text" id="modelName" placeholder="gpt-4o / deepseek-chat 等">
+          </div>
+          <button class="btn-save-config" onclick="saveConfig()">💾 保存配置</button>
+          <div id="configStatus"></div>
+        </div>
+      </div>
+
+      <!-- Platform Tabs -->
+      <div class="platform-tabs" id="platformTabs">
+        <button class="platform-tab active" data-platform="xiaohongshu" onclick="switchPlatform('xiaohongshu')">📕 小红书</button>
+        <button class="platform-tab" data-platform="douyin" onclick="switchPlatform('douyin')">🎵 抖音</button>
+        <button class="platform-tab" data-platform="general" onclick="switchPlatform('general')">🌐 多平台通用</button>
+      </div>
+
+      <!-- Templates -->
+      <div class="templates-section">
+        <h3>📋 选择爆款模板</h3>
+        <div class="template-grid" id="templateGrid"></div>
+      </div>
+    </div>
+
+    <!-- ═══ RIGHT PANEL ═══ -->
+    <div class="right-panel">
+
+      <!-- Prompt Input -->
+      <div class="prompt-card">
+        <h3>
+          ✏️ 自定义提示词
+          <span class="tag">可选</span>
+        </h3>
+        <textarea class="prompt-textarea" id="promptInput" placeholder="选好模板后，在这里补充你的具体需求...&#10;例如：帮我写一篇推荐 xxx 产品的种草文案，受众是25-35岁职场女性，突出性价比和颜值。"></textarea>
+
+        <!-- Parameters -->
+        <div class="params-grid">
+          <div class="param-group">
+            <label>🎭 语气</label>
+            <select id="tone">
+              <option value="轻松活泼">轻松活泼</option>
+              <option value="专业严谨">专业严谨</option>
+              <option value="幽默风趣">幽默风趣</option>
+              <option value="感性走心">感性走心</option>
+              <option value="热情激昂">热情激昂</option>
+            </select>
+          </div>
+          <div class="param-group">
+            <label>😊 Emoji 程度</label>
+            <select id="emojiLevel">
+              <option value="无">无 Emoji</option>
+              <option value="少">少量点缀</option>
+              <option value="中" selected>适中</option>
+              <option value="多">尽量多</option>
+            </select>
+          </div>
+          <div class="param-group">
+            <label>📏 目标字数</label>
+            <select id="wordCount">
+              <option value="短">短 (50-150字)</option>
+              <option value="中" selected>中 (150-350字)</option>
+              <option value="长">长 (350-600字)</option>
+              <option value="超长">超长 (600-1000字)</option>
+            </select>
+          </div>
+          <div class="param-group">
+            <label>📦 生成份数</label>
+            <select id="quantity">
+              <option value="1">1 份</option>
+              <option value="2">2 份</option>
+              <option value="3" selected>3 份</option>
+              <option value="5">5 份</option>
+            </select>
+          </div>
+          <div class="param-group param-full">
+            <label>🎯 目标受众</label>
+            <input type="text" id="targetAudience" placeholder="如：25-35岁职场女性、大学生、宝妈群体...">
+          </div>
+          <div class="param-group param-full">
+            <label>🔑 关键词（逗号分隔）</label>
+            <input type="text" id="keywords" placeholder="如：性价比高, 颜值, 实用, 送礼首选...">
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate Button -->
+      <button class="btn-generate" id="btnGenerate" onclick="generate()">
+        <span class="spinner"></span>
+        <span class="btn-text">✨ 生成爆款文案</span>
+      </button>
+
+      <!-- Results -->
+      <div class="results-section" id="resultsSection">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-state-icon">✨</div>
+          <h4>准备创作你的爆款文案</h4>
+          <p>选择平台和模板，或直接输入需求，点击「生成爆款文案」按钮，AI 即刻为你打造引人注目的内容。</p>
+        </div>
+        <div id="resultsContainer"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- ═══════ HISTORY OVERLAY ═══════ -->
+<div class="history-overlay" id="historyOverlay" onclick="toggleHistory()"></div>
+<div class="history-panel" id="historyPanel">
+  <div class="history-panel-header">
+    <h3>📜 历史记录</h3>
+    <button class="btn-close-history" onclick="toggleHistory()">✕</button>
+  </div>
+  <div class="history-list" id="historyList"></div>
+  <button class="history-clear-btn" onclick="clearAllHistory()">🗑️ 清空全部历史</button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+   JAVASCRIPT
+   ═══════════════════════════════════════════ -->
+<script>
+// ═══════════════════════════════════════════
+// DATA: TEMPLATES
+// ═══════════════════════════════════════════
+const TEMPLATES = {
+  xiaohongshu: [
+    {
+      id:'xhs-1', name:'好物推荐种草', icon:'🎁',
+      desc:'真实体验打动用户，让产品自然种草',
+      system:'你是一位小红书爆款种草文案写手。擅长用真实、细腻的体验描述吸引用户，让产品自然融入场景而非硬广。熟悉小红书平台的女性用户审美和阅读习惯。',
+      prompt:'请写一篇小红书种草文案。核心要求：1) 开头用一句话抓住注意力；2) 用第一人称真实体验的方式描述产品；3) 突出 2-3 个核心卖点，每个卖点配合具体使用场景；4) 结尾给出购买建议或温馨提示；5) 加入适量 emoji 和标签（#话题）。'
+    },
+    {
+      id:'xhs-2', name:'干货知识分享', icon:'💡',
+      desc:'硬核知识配上友好表达，打造收藏级内容',
+      system:'你是一位小红书知识类博主。擅长把专业知识点转化成通俗易懂、可收藏的内容。表达清晰有逻辑，同时保持轻松友好的语气。',
+      prompt:'请写一篇小红书干货知识分享文案。核心要求：1) 开头说明"为什么要了解这个"；2) 知识点拆分成 3-5 个小点，每点用简短标题+展开说明；3) 配合实用建议或避坑指南；4) 结尾引导收藏和关注；5) 加入相关标签。'
+    },
+    {
+      id:'xhs-3', name:'情感走心故事', icon:'💝',
+      desc:'用故事打动人心，引发共鸣与互动',
+      system:'你是一位擅长写情感故事的文案创作者。能用细腻的笔触讲述真实可感的故事，引发读者强烈共鸣。懂得用细节打动人，而非空洞抒情。',
+      prompt:'请写一篇小红书风格的情感故事文案。核心要求：1) 开头用具体场景或对话引入；2) 讲述一个有起伏、有细节的短故事；3) 在故事中自然带出感悟或道理；4) 结尾留一句能让读者回味的话；5) 加入相关标签。'
+    },
+    {
+      id:'xhs-4', name:'日常生活Vlog', icon:'☕',
+      desc:'记录日常的美好，让平凡闪闪发光',
+      system:'你是一位生活方式博主。善于发现并记录日常生活中的美好瞬间，文字温暖治愈，能给读者带来好心情。',
+      prompt:'请写一篇小红书日常Vlog文案。核心要求：1) 用时间线或场景串联一天的美好瞬间；2) 描述具体的画面、气味、感受等细节；3) 穿插小确幸时刻和发现；4) 结尾总结当天的感悟；5) 加入生活方式类标签。'
+    },
+    {
+      id:'xhs-5', name:'美妆穿搭教程', icon:'💄',
+      desc:'从素颜到精致，手把手教学引人收藏',
+      system:'你是一位美妆/穿搭博主。熟悉美妆护肤及穿搭知识，能用亲切的教学口吻分享变美技巧，内容实用且视觉感强。',
+      prompt:'请写一篇小红书美妆/穿搭教程文案。核心要求：1) 标题包含效果承诺（如"三分钟搞定"）；2) 分步骤说明，每步有明确操作；3) 标注产品名称和价格区间；4) 附上"不适合人群"提醒；5) 加入美妆/穿搭类标签。'
+    },
+    {
+      id:'xhs-6', name:'打卡探店体验', icon:'📍',
+      desc:'沉浸式探店，让读者身临其境',
+      system:'你是一位探店博主。文字要让人有身临其境的感觉，从环境到出品全面评测，给出真实中肯的推荐。',
+      prompt:'请写一篇小红书探店文案。核心要求：1) 开头交代探店的起因或期待；2) 描述环境氛围、装修风格；3) 详细评测 2-3 道招牌出品；4) 标注价格、地址等实用信息；5) 给出推荐指数和去/不去建议。'
+    },
+    {
+      id:'xhs-7', name:'避坑指南合集', icon:'⚠️',
+      desc:'帮粉丝省钱省心，收藏率超高的实用帖',
+      system:'你是一位实用主义博主。擅长总结经验和教训，用"我踩过的坑你别踩"的亲切口吻分享，直击痛点。',
+      prompt:'请写一篇小红书避坑指南文案。核心要求：1) 开头制造共鸣（"这些坑你一定也踩过"）；2) 列出 4-6 个常见误区或坑；3) 每个坑写出"错误做法→正确做法→原因"；4) 总结合理性建议；5) 加入实用类标签。'
+    },
+    {
+      id:'xhs-8', name:'合集整理分享', icon:'📦',
+      desc:'精选好物清单，一次性满足读者的选择需求',
+      system:'你是一位好物分享博主。擅长做精选清单类内容，从大量产品中筛选出最优推荐，给读者做决策参考。',
+      prompt:'请写一篇小红书合集/清单文案。核心要求：1) 开头说明合集主题和适用人群；2) 推荐 5-8 个精选好物，每项简短介绍亮点和价格；3) 按价格或用途分类排列；4) 给出综合推荐 Top 3；5) 加入相关标签。'
+    }
+  ],
+  douyin: [
+    {
+      id:'dy-1', name:'搞笑段子', icon:'😂',
+      desc:'让观众忍不住笑出声，完播率超高',
+      system:'你是一位抖音段子手。擅长用夸张但合理的剧情制造笑点，节奏紧凑，3秒内抓人眼球。懂抖音用户的幽默取向。',
+      prompt:'请写一篇抖音搞笑段子文案/脚本。核心要求：1) 开头第一句就要制造笑点或悬念；2) 可以设置"预期违背"或"反转"；3) 对话简洁有力；4) 配合语气词和停顿设计；5) 结尾再来一个梗收尾。'
+    },
+    {
+      id:'dy-2', name:'知识科普', icon:'🧠',
+      desc:'硬核知识轻松说，涨粉必备',
+      system:'你是一位抖音知识科普创作者。能把复杂知识拆解成 30-60 秒就能理解的通俗内容，表达生动有趣。',
+      prompt:'请写一篇抖音知识科普文案。核心要求：1) 开头用"颠覆认知"的问题吸引注意；2) 用类比或生活化例子解释；3) 知识点控制在 1-2 个核心；4) 结尾总结➕引导关注；5) 语速建议和停顿标记。'
+    },
+    {
+      id:'dy-3', name:'情感语录', icon:'💔',
+      desc:'直击心灵的句子，让人忍不住点赞收藏',
+      system:'你是一位情感语录创作者。文字直击人心，能用最简洁的表达引起最强烈的情感共鸣。精炼而有力。',
+      prompt:'请写一篇抖音情感语录文案。核心要求：1) 围绕一个情感主题（爱情/友情/成长/遗憾等）；2) 句子短而有力，适合配音；3) 避免陈词滥调，要有新角度；4) 3-5条金句组成；5) 配合 BGM 情绪建议。'
+    },
+    {
+      id:'dy-4', name:'产品带货', icon:'🛍️',
+      desc:'激发购买欲，从痛点直击产品优势',
+      system:'你是一位抖音带货主播。善于挖掘产品核心卖点，用场景化语言激发用户购买欲。懂抖音带货话术节奏。',
+      prompt:'请写一篇抖音产品带货文案。核心要求：1) 开头直击用户痛点；2) 突出 2 个最核心卖点，每个卖点配使用场景；3) 给出价格优势和限时紧迫感；4) 用"你"拉近距离；5) 结尾明确引导下单。'
+    },
+    {
+      id:'dy-5', name:'生活技巧', icon:'🔧',
+      desc:'实用小技巧，看完就想试',
+      system:'你是一位生活妙招分享达人。善于发现并总结让生活更方便的小技巧，表达简洁明了，实操性强。',
+      prompt:'请写一篇抖音生活技巧文案。核心要求：1) 开头抛出问题"你是不是也..."；2) 展示 3 个实用技巧；3) 每个技巧说清楚"怎么做+为什么有效"；4) 技巧要让人"没想到但很有用"；5) 结尾引导关注获取更多技巧。'
+    },
+    {
+      id:'dy-6', name:'热门挑战', icon:'🔥',
+      desc:'跟上热点节奏，参与话题引爆流量',
+      system:'你是一位抖音热点创作者。擅长抓住热门话题和挑战，用创意角度切入，在跟风中做出差异化。',
+      prompt:'请围绕当前热门话题或挑战写一篇抖音文案。核心要求：1) 明确参与的话题/挑战；2) 用独特角度或反差制造看点；3) 节奏紧凑，不拖沓；4) 在 15-30 秒内完成表达；5) 结尾引导互动。'
+    },
+    {
+      id:'dy-7', name:'剧情反转故事', icon:'🎬',
+      desc:'意料之外的剧情线，让人欲罢不能',
+      system:'你是一位短剧创作者。擅长在极短时间内构建引人入胜的剧情，反转设计精妙，结局出人意料。',
+      prompt:'请写一篇抖音剧情反转短文案/脚本。核心要求：1) 开头设置日常情境；2) 前半段铺垫看似平淡；3) 中间出现转折或意外；4) 结尾大反转让人惊呼；5) 总时长控制在 30-45 秒。'
+    },
+    {
+      id:'dy-8', name:'街访问答', icon:'🎤',
+      desc:'随机提问引爆话题，真实互动最吸睛',
+      system:'你是一位街头采访创作者。设计的问题要有话题性、争议性或趣味性，能引发观众在评论区讨论。',
+      prompt:'请设计一篇抖音街访文案。核心要求：1) 设计 3-5 个街访问题；2) 问题要有话题性/趣味性；3) 预判可能的回答方向；4) 给出后期剪辑节奏建议；5) 结尾设计引导评论互动的问题。'
+    }
+  ],
+  general: [
+    {
+      id:'gen-1', name:'爆款标题', icon:'🏆',
+      desc:'用一句话抓住眼球，让点击率飙升',
+      system:'你是一位资深新媒体编辑。深谙各大平台的标题法则，能用最短的文字制造最大的好奇心。熟悉数字、对比、悬念、痛点等标题公式。',
+      prompt:'请为主题生成 10 个爆款标题。要求覆盖不同类型的标题公式：1) 悬念型；2) 数字型；3) 对比型；4) 痛点型；5) 反常识型。每个标题控制在 15-25 字。'
+    },
+    {
+      id:'gen-2', name:'蹭热点文案', icon:'🔥',
+      desc:'借势热点，让流量找到你',
+      system:'你是一位热点运营专家。擅长把热点话题和品牌/产品做巧妙关联，借势传播而不显生硬。热点切入角度新颖。',
+      prompt:'请写一篇蹭热点文案。核心要求：1) 明确热点话题；2) 找到热点和主题的巧妙结合点；3) 避免生硬植入；4) 用热点引出核心信息；5) 注意时效性和传播节奏。'
+    },
+    {
+      id:'gen-3', name:'评论区神回复', icon:'💬',
+      desc:'有趣的评论让整篇内容都活了',
+      system:'你是一个网感极强的内容创作者。擅长写短小精悍、妙趣横生的评论回复，让人忍不住点赞回复。',
+      prompt:'请为指定内容写出 5 条"神回复"评论。要求：1) 每条不超过 30 字；2) 类型多样：幽默型、毒舌型、温暖型、补刀型、玩梗型；3) 贴合内容语境。'
+    },
+    {
+      id:'gen-4', name:'短视频脚本', icon:'🎥',
+      desc:'完整的短视频脚本框架，可直接拍摄',
+      system:'你是一位专业短视频编导。擅长搭建完整的短视频脚本结构，从镜头语言到话术设计都有完整构思。',
+      prompt:'请写一个完整的短视频脚本。包含：1) 视频主题和目标；2) 时长 60 秒内；3) 分镜脚本（镜头序号、画面描述、时长、配音/对白、字幕）；4) BGM 建议；5) 发布文案和标签建议。'
+    }
+  ]
+};
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+const STATE = {
+  platform: 'xiaohongshu',
+  activeTemplateId: null,
+  currentResults: [],
+  likedMap: new Map()
+};
+
+// ═══════════════════════════════════════════
+// THEME (light/dark)
+// ═══════════════════════════════════════════
+function getTheme() {
+  try { return localStorage.getItem('viralcpy_theme') || 'dark'; } catch(e) { return 'dark'; }
+}
+function saveTheme(t) {
+  try { localStorage.setItem('viralcpy_theme', t); } catch(e) {}
+}
+function applyTheme(t) {
+  const root = document.documentElement;
+  const moon = document.getElementById('themeIconMoon');
+  const sun = document.getElementById('themeIconSun');
+  if (t === 'light') {
+    root.classList.add('light');
+    moon.style.display = 'none';
+    sun.style.display = '';
+  } else {
+    root.classList.remove('light');
+    moon.style.display = '';
+    sun.style.display = 'none';
+  }
+}
+function toggleTheme() {
+  const current = document.documentElement.classList.contains('light') ? 'dark' : 'light';
+  applyTheme(current);
+  saveTheme(current);
+}
+
+// ═══════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════
+function loadConfig() {
+  try {
+    const saved = localStorage.getItem('viralcpy_config');
+    if (saved) {
+      const c = JSON.parse(saved);
+      document.getElementById('apiKey').value = c.apiKey || '';
+      document.getElementById('baseUrl').value = c.baseUrl || '';
+      document.getElementById('modelName').value = c.model || '';
+    }
+  } catch(e) {}
+}
+function saveConfig() {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const baseUrl = document.getElementById('baseUrl').value.trim();
+  const model = document.getElementById('modelName').value.trim();
+  if (!apiKey || !baseUrl || !model) {
+    showStatus('configStatus', '请填写完整的配置信息', 'missing');
+    return;
+  }
+  localStorage.setItem('viralcpy_config', JSON.stringify({ apiKey, baseUrl, model }));
+  showStatus('configStatus', '✅ 配置已保存', 'ok');
+  setTimeout(() => { document.getElementById('configStatus').innerHTML = ''; }, 2000);
+}
+function getConfig() {
+  try {
+    const saved = localStorage.getItem('viralcpy_config');
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return null;
+}
+function showStatus(elId, msg, type) {
+  const el = document.getElementById(elId);
+  el.className = 'config-status ' + type;
+  el.textContent = msg;
+}
+
+// ═══════════════════════════════════════════
+// UI: PLATFORM & TEMPLATES
+// ═══════════════════════════════════════════
+function switchPlatform(platform) {
+  STATE.platform = platform;
+  STATE.activeTemplateId = null;
+  document.querySelectorAll('.platform-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.platform === platform);
+  });
+  renderTemplates();
+}
+function renderTemplates() {
+  const grid = document.getElementById('templateGrid');
+  const templates = TEMPLATES[STATE.platform] || [];
+  grid.innerHTML = templates.map(t => `
+    <div class="template-card ${STATE.activeTemplateId === t.id ? 'active' : ''}"
+         onclick="selectTemplate('${t.id}')" data-id="${t.id}">
+      <div class="template-card-icon">${t.icon}</div>
+      <div class="template-card-name">${t.name}</div>
+      <div class="template-card-desc">${t.desc}</div>
+      <div class="template-card-badge">${STATE.platform === 'xiaohongshu' ? '📕' : STATE.platform === 'douyin' ? '🎵' : '🌐'}</div>
+    </div>
+  `).join('');
+}
+function selectTemplate(id) {
+  STATE.activeTemplateId = STATE.activeTemplateId === id ? null : id;
+  renderTemplates();
+  // Fill prompt with template's prompt text as reference
+  const templates = TEMPLATES[STATE.platform] || [];
+  const t = templates.find(t => t.id === id);
+  if (t && STATE.activeTemplateId) {
+    const input = document.getElementById('promptInput');
+    if (!input.value.trim() || input.dataset.filled === 'true') {
+      // Only auto-fill if empty or previously auto-filled
+    }
+  }
+  // Scroll to generate area on mobile
+  if (window.innerWidth <= 900) {
+    document.getElementById('btnGenerate').scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+}
+
+// ═══════════════════════════════════════════
+// BUILD SYSTEM PROMPT
+// ═══════════════════════════════════════════
+function buildSystemPrompt() {
+  const platformMap = { xiaohongshu:'小红书', douyin:'抖音', general:'多平台通用' };
+  const platformName = platformMap[STATE.platform] || '小红书/抖音';
+  const tone = document.getElementById('tone').value;
+  const emoji = document.getElementById('emojiLevel').value;
+  const wordCount = document.getElementById('wordCount').value;
+
+  const wordMap = { '短':'50-150', '中':'150-350', '长':'350-600', '超长':'600-1000' };
+  const emojiDesc = {
+    '无':'禁止使用任何emoji',
+    '少':'偶尔使用1-2个emoji点缀',
+    '中':'适当使用emoji增强表达（每段1-2个）',
+    '多':'尽量多使用合适的emoji'
+  };
+
+  const parts = [
+    `你是一位专业的${platformName}爆款文案创作者。`,
+    `写作风格：${tone}。`,
+    `Emoji要求：${emojiDesc[emoji] || '适当使用'}`,
+    `字数要求：${wordMap[wordCount] || '150-350'}字左右。`,
+    `输出格式：直接输出完整文案，不需要额外解释。`,
+    `注意：文案要符合${platformName}平台用户的阅读习惯和审美偏好。`
+  ];
+
+  // Add template system prompt if active
+  const templates = TEMPLATES[STATE.platform] || [];
+  const active = templates.find(t => t.id === STATE.activeTemplateId);
+  if (active) {
+    parts.push('\n---\n' + active.system);
+    parts.push('\n---\n模板要求：' + active.prompt);
+  }
+
+  return parts.join('\n');
+}
+
+function buildUserPrompt() {
+  const custom = document.getElementById('promptInput').value.trim();
+  const audience = document.getElementById('targetAudience').value.trim();
+  const keywords = document.getElementById('keywords').value.trim();
+  const parts = [];
+
+  if (custom) parts.push('用户补充需求：\n' + custom);
+  if (audience) parts.push('\n目标受众：' + audience);
+  if (keywords) parts.push('\n关键词：' + keywords);
+
+  // If no template selected, add a general instruction
+  if (!STATE.activeTemplateId && !custom) {
+    parts.push('请根据平台特点创作一篇爆款文案，主题自定，要求有吸引力、有传播力。');
+  }
+
+  return parts.join('\n') || '请创作一篇吸引人的文案。';
+}
+
+// ═══════════════════════════════════════════
+// GENERATE
+// ═══════════════════════════════════════════
+async function generate() {
+  const config = getConfig();
+  if (!config || !config.apiKey) {
+    toast('请先在 ⚙️ API 配置 中填写并保存 API 信息', 'error');
+    toggleConfigBody(true);
+    return;
+  }
+
+  const btn = document.getElementById('btnGenerate');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  const systemPrompt = buildSystemPrompt();
+  const userPrompt = buildUserPrompt();
+  const qty = parseInt(document.getElementById('quantity').value) || 3;
+  const results = [];
+
+  try {
+    for (let i = 0; i < qty; i++) {
+      const content = await callAI(systemPrompt, userPrompt, config);
+      if (content) {
+        results.push({
+          index: i + 1,
+          content: content.trim(),
+          viralScore: calcViralScore(content)
+        });
+      }
+    }
+  } catch (err) {
+    toast('API 调用失败：' + err.message, 'error');
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    return;
+  }
+
+  STATE.currentResults = results;
+  renderResults(results);
+  saveToHistory(results);
+
+  btn.classList.remove('loading');
+  btn.disabled = false;
+}
+
+async function callAI(system, user, config) {
+  const url = (config.baseUrl.replace(/\/+$/, '')) + '/chat/completions';
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + config.apiKey
+    },
+    body: JSON.stringify({
+      model: config.model,
+      messages: [
+        { role: 'system', content: system },
+        { role: 'user', content: user }
+      ],
+      temperature: 0.85,
+      max_tokens: 3000
+    })
+  });
+  if (!resp.ok) {
+    let errMsg = `HTTP ${resp.status}`;
+    try {
+      const errData = await resp.json();
+      errMsg = errData.error?.message || errData.error || errMsg;
+    } catch(e) {}
+    throw new Error(errMsg);
+  }
+  const data = await resp.json();
+  if (!data.choices || !data.choices[0]) throw new Error('API 返回格式异常');
+  return data.choices[0].message.content;
+}
+
+function calcViralScore(text) {
+  if (!text) return 50;
+  let score = 55;
+  // Length bonus
+  if (text.length > 100) score += 5;
+  if (text.length > 300) score += 5;
+  // Has emoji
+  const emojiCount = (text.match(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu) || []).length;
+  if (emojiCount >= 3) score += 5;
+  if (emojiCount >= 6) score += 3;
+  // Has question/exclamation
+  if (text.includes('？') || text.includes('?')) score += 4;
+  if (text.includes('！') || text.includes('!')) score += 3;
+  // Has hashtags
+  if (text.includes('#')) score += 5;
+  // Has numbers
+  if (/\d+/.test(text)) score += 3;
+  // Has line breaks (well formatted)
+  const lines = text.split('\n').filter(l => l.trim());
+  if (lines.length >= 3 && lines.length <= 8) score += 5;
+  if (lines.length > 8) score += 3;
+  // Call to action
+  if (/关注|点赞|收藏|评论|转发|关注我/i.test(text)) score += 5;
+  // Emotional triggers
+  if (/震惊|哭了|绝了|封神|天花板|YYDS|谁懂|真的太|终于找到|后悔/i.test(text)) score += 5;
+  // Personal touch
+  if (/我|我|自己|亲身|体验/i.test(text)) score += 3;
+  // Capped
+  return Math.min(99, Math.max(10, score));
+}
+
+function getScoreEmoji(score) {
+  if (score >= 85) return '🔥';
+  if (score >= 70) return '💪';
+  if (score >= 55) return '👍';
+  return '📝';
+}
+function getScoreLabel(score) {
+  if (score >= 85) return '爆款潜力';
+  if (score >= 70) return '优质内容';
+  if (score >= 55) return '中规中矩';
+  return '需要优化';
+}
+
+// ═══════════════════════════════════════════
+// RENDER RESULTS
+// ═══════════════════════════════════════════
+function renderResults(results) {
+  const container = document.getElementById('resultsContainer');
+  const empty = document.getElementById('emptyState');
+  empty.style.display = 'none';
+
+  container.innerHTML = results.map((r, idx) => `
+    <div class="result-card" style="animation-delay:${idx * 0.12}s">
+      <div class="result-card-header">
+        <div class="result-label">
+          <span class="num">${r.index}</span>
+          <span>${getScoreEmoji(r.viralScore)} ${getScoreLabel(r.viralScore)}</span>
+        </div>
+        <div class="result-actions">
+          <button class="result-btn ${STATE.likedMap.has(r.index) ? 'liked' : ''}"
+                  onclick="toggleLike(${r.index})">
+            ${STATE.likedMap.has(r.index) ? '❤️' : '🤍'} 收藏
+          </button>
+          <button class="result-btn" onclick="copyText(${idx})">
+            📋 复制
+          </button>
+          <button class="result-btn" onclick="regenerateOne(${r.index})">
+            🔄 重写
+          </button>
+        </div>
+      </div>
+      <div class="result-body">
+        <div class="result-text" id="resultText${r.index}">${r.content}</div>
+      </div>
+      <div class="viral-meter">
+        <span class="viral-meter-label">🔥 热度预测</span>
+        <div class="viral-meter-bar">
+          <div class="viral-meter-fill" id="meterFill${r.index}" style="width:0%"></div>
+        </div>
+        <span class="viral-meter-score" id="meterScore${r.index}" style="opacity:0">${r.viralScore}%</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Animate viral meters after DOM renders
+  requestAnimationFrame(() => {
+    results.forEach((r, idx) => {
+      setTimeout(() => {
+        const fill = document.getElementById('meterFill' + r.index);
+        const scoreLabel = document.getElementById('meterScore' + r.index);
+        if (fill) fill.style.width = r.viralScore + '%';
+        if (scoreLabel) {
+          setTimeout(() => { scoreLabel.style.opacity = '1'; }, 600);
+        }
+      }, 300 + idx * 200);
+    });
+  });
+}
+
+function toggleLike(index) {
+  if (STATE.likedMap.has(index)) {
+    STATE.likedMap.delete(index);
+  } else {
+    STATE.likedMap.set(index, true);
+  }
+  renderResults(STATE.currentResults);
+}
+
+function copyText(idx) {
+  const r = STATE.currentResults[idx];
+  if (!r) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(r.content).then(() => {
+      toast('✅ 已复制到剪贴板', 'success');
+    }).catch(() => fallbackCopy(r.content));
+  } else {
+    fallbackCopy(r.content);
+  }
+}
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); toast('✅ 已复制到剪贴板', 'success'); }
+  catch(e) { toast('复制失败，请手动复制', 'error'); }
+  document.body.removeChild(ta);
+}
+
+async function regenerateOne(index) {
+  const config = getConfig();
+  if (!config) { toast('请先配置 API', 'error'); return; }
+
+  const btn = document.getElementById('btnGenerate');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const systemPrompt = buildSystemPrompt();
+    const userPrompt = buildUserPrompt() || '请创作一篇吸引人的文案。';
+    const content = await callAI(systemPrompt, userPrompt, config);
+    if (content) {
+      const idx = STATE.currentResults.findIndex(r => r.index === index);
+      if (idx >= 0) {
+        STATE.currentResults[idx].content = content.trim();
+        STATE.currentResults[idx].viralScore = calcViralScore(content);
+      }
+      renderResults(STATE.currentResults);
+      saveToHistory(STATE.currentResults);
+    }
+  } catch (err) {
+    toast('重写失败：' + err.message, 'error');
+  }
+
+  btn.classList.remove('loading');
+  btn.disabled = false;
+}
+
+// ═══════════════════════════════════════════
+// HISTORY
+// ═══════════════════════════════════════════
+function getHistory() {
+  try {
+    const h = localStorage.getItem('viralcpy_history');
+    return h ? JSON.parse(h) : [];
+  } catch(e) { return []; }
+}
+function saveHistory(history) { localStorage.setItem('viralcpy_history', JSON.stringify(history)); }
+
+function saveToHistory(results) {
+  if (!results || results.length === 0) return;
+  const history = getHistory();
+  const activeTpl = (TEMPLATES[STATE.platform] || []).find(t => t.id === STATE.activeTemplateId);
+  const entry = {
+    id: Date.now(),
+    platform: STATE.platform,
+    templateName: activeTpl ? activeTpl.name : '自定义',
+    templateIcon: activeTpl ? activeTpl.icon : '✏️',
+    timestamp: new Date().toLocaleString('zh-CN'),
+    results: results.map(r => ({
+      index: r.index,
+      content: r.content,
+      viralScore: r.viralScore
+    }))
+  };
+  history.unshift(entry);
+  if (history.length > 100) history.length = 100;
+  saveHistory(history);
+  updateHistoryBadge();
+  renderHistoryList();
+}
+
+function updateHistoryBadge() {
+  const h = getHistory();
+  document.getElementById('historyBadge').textContent = h.length;
+}
+
+function renderHistoryList() {
+  const list = document.getElementById('historyList');
+  const history = getHistory();
+  if (history.length === 0) {
+    list.innerHTML = '<div class="history-empty">暂无历史记录</div>';
+    return;
+  }
+  list.innerHTML = history.map(h => `
+    <div class="history-item" onclick="restoreHistory(${h.id})">
+      <div class="history-item-meta">
+        <span class="history-item-platform">${h.platform === 'xiaohongshu' ? '📕小红书' : h.platform === 'douyin' ? '🎵抖音' : '🌐通用'}</span>
+        <span class="history-item-template">${h.templateIcon} ${h.templateName}</span>
+        <span class="history-item-date">${h.timestamp}</span>
+      </div>
+      <div class="history-item-preview">${h.results[0]?.content?.substring(0, 80) || ''}...</div>
+      <button class="history-item-delete" onclick="event.stopPropagation(); deleteHistory(${h.id})">✕</button>
+    </div>
+  `).join('');
+}
+
+function restoreHistory(id) {
+  const history = getHistory();
+  const entry = history.find(h => h.id === id);
+  if (!entry) return;
+  STATE.currentResults = entry.results || [];
+  renderResults(STATE.currentResults);
+  toggleHistory();
+  toast('✅ 已恢复历史记录', 'success');
+}
+
+function deleteHistory(id) {
+  let history = getHistory();
+  history = history.filter(h => h.id !== id);
+  saveHistory(history);
+  updateHistoryBadge();
+  renderHistoryList();
+}
+
+function clearAllHistory() {
+  if (!confirm('确定要清空所有历史记录吗？')) return;
+  saveHistory([]);
+  updateHistoryBadge();
+  renderHistoryList();
+  toast('🗑️ 历史记录已清空', 'success');
+}
+
+// ═══════════════════════════════════════════
+// UI TOGGLES
+// ═══════════════════════════════════════════
+function toggleConfig() {
+  const body = document.getElementById('configBody');
+  const arrow = document.getElementById('configArrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+function toggleConfigBody(open) {
+  const body = document.getElementById('configBody');
+  const arrow = document.getElementById('configArrow');
+  if (open === true) { body.classList.add('open'); arrow.classList.add('open'); }
+  else if (open === false) { body.classList.remove('open'); arrow.classList.remove('open'); }
+  else toggleConfig();
+}
+
+function toggleHistory() {
+  document.getElementById('historyOverlay').classList.toggle('open');
+  document.getElementById('historyPanel').classList.toggle('open');
+  if (document.getElementById('historyPanel').classList.contains('open')) {
+    renderHistoryList();
+  }
+}
+
+// ═══════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════
+function toast(msg, type) {
+  const container = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast ' + (type || '');
+  el.textContent = msg;
+  container.appendChild(el);
+  setTimeout(() => { if (el.parentNode) el.remove(); }, 3000);
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+applyTheme(getTheme());
+loadConfig();
+renderTemplates();
+updateHistoryBadge();
+
+// Auto-open config if not configured
+if (!getConfig()) {
+  setTimeout(() => toggleConfigBody(true), 500);
+}
+</script>
+</body>
+</html>

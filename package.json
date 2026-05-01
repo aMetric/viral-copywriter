@@ -1,0 +1,11 @@
+{
+  "name": "viral-copywriter",
+  "version": "1.0.0",
+  "description": "爆款文案工坊 - AI驱动的社交媒体爆款文案生成工具，支持小红书、抖音、多平台通用",
+  "scripts": {
+    "start": "npx serve . -l 5173",
+    "dev": "npx serve . -l 5173"
+  },
+  "keywords": ["小红书", "抖音", "文案", "AI", "content-generation"],
+  "license": "MIT"
+}
